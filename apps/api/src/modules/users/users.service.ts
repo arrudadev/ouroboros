@@ -1,35 +1,31 @@
-import { randomUUID } from "node:crypto";
 import { Injectable } from "@nestjs/common";
-import type { CreateUser, User } from "@ouroboros/contracts";
+import type { User } from "@ouroboros/contracts";
+import { db } from "../../shared/database/client";
+import { user as userTable } from "../../shared/database/schema/auth.schema";
+
+type UserRow = {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: Date;
+};
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[] = [
-    {
-      id: randomUUID(),
-      name: "Ada Lovelace",
-      email: "ada@example.com",
-      createdAt: new Date().toISOString(),
-    },
-    {
-      id: randomUUID(),
-      name: "Alan Turing",
-      email: "alan@example.com",
-      createdAt: new Date().toISOString(),
-    },
-  ];
+  async findAll(): Promise<User[]> {
+    const rows = await db
+      .select({
+        id: userTable.id,
+        name: userTable.name,
+        email: userTable.email,
+        createdAt: userTable.createdAt,
+      })
+      .from(userTable);
 
-  findAll(): User[] {
-    return this.users;
+    return rows.map(toUserDto);
   }
+}
 
-  create(input: CreateUser): User {
-    const user: User = {
-      id: randomUUID(),
-      createdAt: new Date().toISOString(),
-      ...input,
-    };
-    this.users.push(user);
-    return user;
-  }
+export function toUserDto(row: UserRow): User {
+  return { id: row.id, name: row.name, email: row.email, createdAt: row.createdAt.toISOString() };
 }

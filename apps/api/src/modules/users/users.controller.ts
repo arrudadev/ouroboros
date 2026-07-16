@@ -1,19 +1,22 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Controller, Get } from "@nestjs/common";
 import type { User } from "@ouroboros/contracts";
-import { CreateUserDto, type UserDto } from "./user.dto";
-import { UsersService } from "./users.service";
+import { Session, type UserSession } from "@thallesp/nestjs-better-auth";
+import { auth } from "../../shared/auth/auth";
+// UsersService must stay a value import: it's the runtime reference Nest's DI
+// container resolves the constructor parameter against.
+import { toUserDto, UsersService } from "./users.service";
 
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  findAll(): User[] {
+  findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
-  @Post()
-  create(@Body() body: CreateUserDto): UserDto {
-    return this.usersService.create(body);
+  @Get("me")
+  me(@Session() session: UserSession<typeof auth>): User {
+    return toUserDto(session.user);
   }
 }
