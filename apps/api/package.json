@@ -23,6 +23,7 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@ouroboros/contracts": "workspace:*",
+    "@thallesp/nestjs-better-auth": "^2.7.0",
     "better-auth": "^1.6.23",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
