@@ -14,6 +14,7 @@
   "dependencies": {
     "@ouroboros/contracts": "workspace:*",
     "@tanstack/react-query": "^5.101.2",
+    "better-auth": "^1.6.23",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "zod": "catalog:"

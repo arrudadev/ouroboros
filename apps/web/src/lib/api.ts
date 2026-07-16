@@ -1,6 +1,6 @@
 import type { z } from "zod";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+export const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
 export class ApiError extends Error {
   readonly status: number;
@@ -28,6 +28,8 @@ export async function apiRequest<Schema extends z.ZodType>(
 
   const response = await fetch(`${API_URL}${path}`, {
     ...rest,
+    // Carries the Better Auth session cookie to protected endpoints.
+    credentials: "include",
     headers: { "Content-Type": "application/json", ...headers },
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
