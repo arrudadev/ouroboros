@@ -15,7 +15,8 @@
     "test:e2e": "vitest run --config vitest.config.e2e.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "auth:generate": "better-auth generate --config src/shared/auth/auth.ts --output src/shared/database/schema/auth.schema.ts"
+    "auth:generate": "better-auth generate --config src/shared/auth/auth.ts --output src/shared/database/schema/auth.schema.ts",
+    "invite": "tsx scripts/invite.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.17.4",
