@@ -1,6 +1,6 @@
-import { auth } from "./auth";
+import { auth } from "../src/shared/auth/auth";
 
-describe("auth", () => {
+describe("auth instance (e2e)", () => {
   it("initializes without throwing and exposes the request handler", () => {
     expect(auth.handler).toBeTypeOf("function");
   });
